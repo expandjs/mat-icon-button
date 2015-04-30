@@ -1,8 +1,8 @@
 {
   "name": "mat-icon-button",
   "license": "BSD-3-Clause",
-  "version": "0.8.4",
-  "description": "This element is used to display a material icon button.",
+  "version": "0.8.5",
+  "description": "A custom element used to display a Material Design icon button",
   "homepage": "http://www.expandjs.com/elements/mat-icon-button",
   "authors": [
     "Giuliano Rullo <g.rullo@expandjs.com>",
