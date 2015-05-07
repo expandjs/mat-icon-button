@@ -40,7 +40,7 @@ This element is used to display a material icon button.
 <link rel="import" href="../xp-pressed-state/xp-pressed-state.html">
 <link rel="import" href="../xp-targeter/xp-targeter.html">
 
-<polymer-element name="mat-icon-button" constructor="MATIconButtonElement" attributes="active activeColor activeIcon activeIconSrc animated color data disabled download empty focused href icon iconSrc invokes pressed raster rel target toggleable">
+<polymer-element name="mat-icon-button" constructor="MATIconButtonElement" attributes="active activeColor activeIcon activeIconSrc animated color data disabled download empty focused href icon iconSrc pressed raster rel target toggleable">
 
     <template>
         <link rel="stylesheet" href="../xp-pressed-state/xp-pressed-state.css">
@@ -119,7 +119,7 @@ This element is used to display a material icon button.
         <template context="{{}}" is="xp-anchor-state" id="xpAnchorState" anchor="{{$.matIconButtonAnchor}}" download="{{download}}" href="{{href}}" rel="{{rel}}" target="{{target}}"></template>
         <template context="{{}}" is="xp-disabled-state" id="xpDisabledState" disabled="{{disabled}}"></template>
         <template context="{{}}" is="xp-focused-state" id="xpFocusedState" disabled="{{disabled}}" focused="{{focused}}"></template>
-        <template context="{{}}" is="xp-pressed-state" id="xpPressedState" active="{{active}}" disabled="{{disabled}}" invokes="{{invokes}}" pressed="{{pressed}}" target="{{target}}" toggleable="{{toggleable}}"></template>
+        <template context="{{}}" is="xp-pressed-state" id="xpPressedState" active="{{active}}" disabled="{{disabled}}" pressed="{{pressed}}" target="{{target}}" toggleable="{{toggleable}}"></template>
         <div id="matIconButtonWrapper">
             <a id="matIconButtonAnchor">
                 <div id="matIconButtonMain" horizontal layout center-center>
@@ -156,7 +156,6 @@ This element is used to display a material icon button.
              * @event xp-activate
              * @param {Element} firer
              * @param {Element} target
-             * @param {string} invokes
              * @param {boolean} isActive
              * @bubbles
              * @cancelable
@@ -300,15 +299,6 @@ This element is used to display a material icon button.
                  * @default ""
                  */
                 iconSrc: {reflect: true, value: ''},
-
-                /**
-                 * The target's method to invoke on press.
-                 *
-                 * @attribute invokes
-                 * @type string
-                 * @default "toggle"
-                 */
-                invokes: {reflect: true, value: 'toggle'},
 
                 /**
                  * If set to true, the element is pressed.
