@@ -6,22 +6,32 @@
 <dom-module id="mat-icon-button-demo">
 
     <template>
-        <mat-demo label="mat-icon-button">
 
-            <div class="demo-title">Default</div>
-            <mat-icon-button icon="action:favorite" color="red"></mat-icon-button>
-            <mat-icon-button icon="action:alarm"></mat-icon-button>
+        <mat-demo label="Default">
             <mat-icon-button icon="av:album"></mat-icon-button>
-
-            <div class="demo-title">Disabled</div>
-            <mat-icon-button disabled icon="action:favorite" color="red"></mat-icon-button>
-            <mat-icon-button disabled icon="action:alarm"></mat-icon-button>
-            <mat-icon-button disabled icon="av:album"></mat-icon-button>
-
-            <div class="demo-title">Toggleable</div>
-            <mat-icon-button icon="action:favorite-outline" active-icon="action:favorite" color="red" toggleable></mat-icon-button>
-
         </mat-demo>
+
+        <mat-demo label="Colored">
+            <script type="text/html">
+                <mat-icon-button icon="action:favorite" color="red"></mat-icon-button>
+            </script>
+            <mat-icon-button icon="action:favorite" color="red"></mat-icon-button>
+        </mat-demo>
+
+        <mat-demo label="Disabled">
+            <script type="text/html">
+                <mat-icon-button disabled icon="action:alarm"></mat-icon-button>
+            </script>
+            <mat-icon-button disabled icon="action:alarm"></mat-icon-button>
+        </mat-demo>
+
+        <mat-demo label="Toggleable">
+            <script type="text/html">
+                <mat-icon-button icon="action:favorite-outline" active-color="red" active-icon="action:favorite" toggleable></mat-icon-button>
+            </script>
+            <mat-icon-button icon="action:favorite-outline" active-color="red" active-icon="action:favorite" toggleable></mat-icon-button>
+        </mat-demo>
+
     </template>
 
     <script>
