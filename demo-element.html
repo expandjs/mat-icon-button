@@ -7,32 +7,36 @@
 
     <template>
 
-        <mat-demo label="Default">
-            <script type="text/html">
+        <mat-demo name="mat-icon-button" type="element" url="http://expandjs.com/elements/mat-icon-button">
+
+            <mat-demo-panel label="Default">
+                <script type="text/html">
+                    <mat-icon-button icon="av:album"></mat-icon-button>
+                </script>
                 <mat-icon-button icon="av:album"></mat-icon-button>
-            </script>
-            <mat-icon-button icon="av:album"></mat-icon-button>
-        </mat-demo>
+            </mat-demo-panel>
 
-        <mat-demo label="Colored">
-            <script type="text/html">
+            <mat-demo-panel label="Colored">
+                <script type="text/html">
+                    <mat-icon-button icon="action:favorite" color="red"></mat-icon-button>
+                </script>
                 <mat-icon-button icon="action:favorite" color="red"></mat-icon-button>
-            </script>
-            <mat-icon-button icon="action:favorite" color="red"></mat-icon-button>
-        </mat-demo>
+            </mat-demo-panel>
 
-        <mat-demo label="Disabled">
-            <script type="text/html">
+            <mat-demo-panel label="Disabled">
+                <script type="text/html">
+                    <mat-icon-button disabled icon="action:alarm"></mat-icon-button>
+                </script>
                 <mat-icon-button disabled icon="action:alarm"></mat-icon-button>
-            </script>
-            <mat-icon-button disabled icon="action:alarm"></mat-icon-button>
-        </mat-demo>
+            </mat-demo-panel>
 
-        <mat-demo label="Toggleable">
-            <script type="text/html">
+            <mat-demo-panel label="Toggleable">
+                <script type="text/html">
+                    <mat-icon-button icon="action:favorite-outline" active-color="red" active-icon="action:favorite" toggleable></mat-icon-button>
+                </script>
                 <mat-icon-button icon="action:favorite-outline" active-color="red" active-icon="action:favorite" toggleable></mat-icon-button>
-            </script>
-            <mat-icon-button icon="action:favorite-outline" active-color="red" active-icon="action:favorite" toggleable></mat-icon-button>
+            </mat-demo-panel>
+
         </mat-demo>
 
     </template>
