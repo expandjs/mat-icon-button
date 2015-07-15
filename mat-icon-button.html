@@ -135,7 +135,7 @@ This element is used to display a material icon button.
             <a id="matIconButtonAnchor">
                 <div id="matIconButtonMain">
                     <div id="matIconButtonIcons">
-                        <mat-icon id="matIconButtonIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[icon]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
+                        <mat-icon id="matIconButtonIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[_computeOpacity(active, inactiveDim)]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
                         <mat-icon id="matIconButtonActiveIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[activeIcon]]" raster="{{activeRaster}}" src="[[activeIconSrc]]"></mat-icon>
                     </div>
                 </div>
@@ -290,6 +290,19 @@ This element is used to display a material icon button.
                 },
 
                 /**
+                 * If set to true, the icon is dimmed on inactive state.
+                 *
+                 * @attribute inactive-dim
+                 * @type boolean
+                 * @default false
+                 */
+                inactiveDim: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
                  * If set to true, the icon is a raster one instead of svg.
                  *
                  * @attribute raster
@@ -318,6 +331,11 @@ This element is used to display a material icon button.
             // COMPUTER
             _computeEmpty: function (animated, active, icon, iconSrc) {
                 return (!animated || !active) && !icon && !iconSrc;
+            },
+
+            // COMPUTER
+            _computeOpacity: function (active, inactiveDim) {
+                return (!active && inactiveDim && 'hint') || null;
             },
 
             /*********************************************************************/
