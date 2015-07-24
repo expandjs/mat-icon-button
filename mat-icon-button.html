@@ -16,21 +16,21 @@ This element is used to display a material icon button.
 @homepage http://expandjs.com/elements/mat-icon-button
 @demo http://expandjs.com/demo/mat-icon-button
 
-@behavior xp-anchor-behavior http://expandjs.com/elements/xp-anchor-behavior
-@behavior xp-pressed-behavior http://expandjs.com/elements/xp-pressed-behavior
-@behavior xp-referral-behavior http://expandjs.com/elements/xp-referral-behavior
+@behavior xp-anchor-behavior /bower_components/xp-anchor-behavior/xp-anchor-behavior.html
+@behavior xp-pressed-behavior /bower_components/xp-pressed-behavior/xp-pressed-behavior.html
+@behavior xp-referral-behavior /bower_components/xp-referral-behavior/xp-referral-behavior.html
 
 @dependency polymer Polymer/polymer#^1.0.0
-@dependency expandjs ExpandJS/expandjs#0.9.4
+@dependency expandjs ExpandJS/expandjs#0.9.5
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency mat-icon ExpandJS/mat-icon#0.9.4
-@dependency mat-ripple ExpandJS/mat-ripple#0.9.4
-@dependency xp-anchor-behavior ExpandJS/xp-anchor-behavior#0.9.4
-@dependency xp-pressed-behavior ExpandJS/xp-pressed-behavior#0.9.4
-@dependency xp-referral-behavior ExpandJS/xp-referral-behavior#0.9.4
+@dependency mat-icon ExpandJS/mat-icon#0.9.5
+@dependency mat-ripple ExpandJS/mat-ripple#0.9.5
+@dependency xp-anchor-behavior ExpandJS/xp-anchor-behavior#0.9.5
+@dependency xp-pressed-behavior ExpandJS/xp-pressed-behavior#0.9.5
+@dependency xp-referral-behavior ExpandJS/xp-referral-behavior#0.9.5
 
-@devDependency mat-demo ExpandJS/mat-demo#0.9.4
-@devDependency mat-icons ExpandJS/mat-icons#0.9.4
+@devDependency mat-demo ExpandJS/mat-demo#0.9.5
+@devDependency mat-icons ExpandJS/mat-icons#0.9.5
 -->
 
 <link rel="import" href="../polymer/polymer.html">
@@ -73,6 +73,7 @@ This element is used to display a material icon button.
             border-radius: inherit;
             display: block;
             height: 100%;
+            outline: 0;
             overflow: hidden;
             text-decoration: none;
         }
@@ -132,7 +133,7 @@ This element is used to display a material icon button.
 
     <template>
         <div id="matIconButtonWrapper">
-            <a id="matIconButtonAnchor">
+            <a id="matIconButtonAnchor" tabindex="-1">
                 <div id="matIconButtonMain">
                     <div id="matIconButtonIcons">
                         <mat-icon id="matIconButtonIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[_computeOpacity(active, inactiveDim)]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
