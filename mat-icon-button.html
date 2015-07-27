@@ -7,7 +7,66 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-This element is used to display a material icon button.
+An element used to display a [Material Design icon button](http://www.google.com/design/spec/components/buttons.html#buttons-other-buttons).
+
+To be able to display icons using the `icon` you must import an icon set into your page,
+otherwise you can use `icon-src` to set custom icons.
+```html
+<link rel="import" href="../mat-icons/action-icons.html">
+
+<mat-icon-button icon="action:favorite"></mat-icon-button>
+<mat-icon-button icon-src="https://example.com/path/icon.png"></mat-icon-button>
+```
+
+The button can be used for toggling of other elements..
+
+```html
+<mat-icon-button icon="nagivation:more-vert" target="myMenu" toggles-target></mat-icon-button>
+<mat-menu id="myMenu">...</mat-menu>
+```
+
+...creating external links...
+
+```html
+<mat-icon-button icon="content:link" href="http://expandjs.com" target="_blank"></mat-icon-button>
+```
+
+...or other actions
+
+```html
+<mat-icon-button icon="toggle:star-outline" active-icon="toggle:star" toggleable>
+
+<script>
+    var el = document.querySelector('mat-icon-button');
+
+    el.addEventListener('xp-active', function (event) {
+        if (event.detail.isActive) {
+            console.log('I\'ve been activated!');
+        } else {
+            console.log('I\'ve been shut down :(');
+        }
+    });
+</script>
+```
+
+---
+
+## Styling
+
+The button's color can be changed accordingly to the
+[Material Design palette](http://www.google.com/design/spec/style/color.html#color-color-palette) based
+on its `active` state.
+
+```html
+<mat-button icon="social:person" color="blue"></mat-button>
+<mat-button icon="action:favorite" color="grey" active-color="red" toggleable></mat-button>
+```
+
+If you want the button to be colorless whenever it's inactive you can set `inactive-dim`.
+
+```html
+<mat-icon-button icon="action:favorite" color="red" inactive-dim toggleable></mat-icon-button>
+```
 
 @element mat-icon-button
 @description A custom element used to display a Material Design icon button
@@ -203,7 +262,7 @@ This element is used to display a material icon button.
                 /**
                  * If set to true, the active icon is a raster one instead of svg.
                  *
-                 * @attribute raster
+                 * @attribute active-raster
                  * @type boolean
                  * @notifies
                  * @readonly
