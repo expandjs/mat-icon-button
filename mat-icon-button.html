@@ -9,43 +9,49 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 <!--
 An element used to display a [Material Design icon button](http://www.google.com/design/spec/components/buttons.html#buttons-other-buttons).
 
-To be able to display icons using the `icon` you must import an icon set into your page,
-otherwise you can use `icon-src` to set custom icons.
+To be able to use the `icon` attribute, you must import an icon set.
+
 ```html
-<link rel="import" href="../mat-icons/action-icons.html">
+<link rel="import" href="bower_components/mat-icons/action-icons.html">
 
 <mat-icon-button icon="action:favorite"></mat-icon-button>
+```
+
+Otherwise you can use `icon-src` to set a custom icon.
+```html
 <mat-icon-button icon-src="https://example.com/path/icon.png"></mat-icon-button>
 ```
 
-The button can be used for toggling of other elements..
+The button can be used to toggle other elements...
 
 ```html
 <mat-icon-button icon="nagivation:more-vert" target="myMenu" toggles-target></mat-icon-button>
 <mat-menu id="myMenu">...</mat-menu>
 ```
 
-...creating external links...
+...link to external resources...
 
 ```html
 <mat-icon-button icon="content:link" href="http://expandjs.com" target="_blank"></mat-icon-button>
 ```
 
-...or other actions
+...or do custom actions via listeners.
 
 ```html
-<mat-icon-button icon="toggle:star-outline" active-icon="toggle:star" toggleable>
+<mat-icon-button id="myButton" icon="toggle:star-outline" active-icon="toggle:star" toggleable></mat-icon-button>
 
 <script>
-    var el = document.querySelector('mat-icon-button');
+    (function () {
+        var button = XP.getElementById('myButton');
 
-    el.addEventListener('xp-active', function (event) {
-        if (event.detail.isActive) {
-            console.log('I\'ve been activated!');
-        } else {
-            console.log('I\'ve been shut down :(');
-        }
-    });
+        XP.listen(button, 'xp-active', function (event) {
+            if (event.detail.isActive) {
+                console.log("I've been activated!");
+            } else {
+                console.log("I've been deactivated!");
+            }
+        });
+    }());
 </script>
 ```
 
@@ -54,18 +60,17 @@ The button can be used for toggling of other elements..
 ## Styling
 
 The button's color can be changed accordingly to the
-[Material Design palette](http://www.google.com/design/spec/style/color.html#color-color-palette) based
-on its `active` state.
+[Material Design palette](http://www.google.com/design/spec/style/color.html#color-color-palette).
 
 ```html
 <mat-button icon="social:person" color="blue"></mat-button>
-<mat-button icon="action:favorite" color="grey" active-color="red" toggleable></mat-button>
+<mat-button icon="action:favorite" active-color="red" toggleable></mat-button>
 ```
 
-If you want the button to be colorless whenever it's inactive you can set `inactive-dim`.
+If you want the button to be semi-transparent whenever it's inactive, you can add `dimmed`.
 
 ```html
-<mat-icon-button icon="action:favorite" color="red" inactive-dim toggleable></mat-icon-button>
+<mat-icon-button icon="action:favorite" active-color="red" dimmed toggleable></mat-icon-button>
 ```
 
 @element mat-icon-button
@@ -196,7 +201,7 @@ If you want the button to be colorless whenever it's inactive you can set `inact
             <a id="matIconButtonAnchor" tabindex="-1">
                 <div id="matIconButtonMain">
                     <div id="matIconButtonIcons">
-                        <mat-icon id="matIconButtonIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[_computeOpacity(active, inactiveDim)]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
+                        <mat-icon id="matIconButtonIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[_computeOpacity(active, dimmed)]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
                         <mat-icon id="matIconButtonActiveIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[activeIcon]]" raster="{{activeRaster}}" src="[[activeIconSrc]]"></mat-icon>
                     </div>
                 </div>
@@ -312,6 +317,19 @@ If you want the button to be colorless whenever it's inactive you can set `inact
                 },
 
                 /**
+                 * If set to true, the icon is dimmed on inactive state.
+                 *
+                 * @attribute dimmed
+                 * @type boolean
+                 * @default false
+                 */
+                dimmed: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
                  * If set to true, the element is hidden.
                  *
                  * @attribute empty
@@ -351,19 +369,6 @@ If you want the button to be colorless whenever it's inactive you can set `inact
                 },
 
                 /**
-                 * If set to true, the icon is dimmed on inactive state.
-                 *
-                 * @attribute inactive-dim
-                 * @type boolean
-                 * @default false
-                 */
-                inactiveDim: {
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
                  * If set to true, the icon is a raster one instead of svg.
                  *
                  * @attribute raster
@@ -395,8 +400,8 @@ If you want the button to be colorless whenever it's inactive you can set `inact
             },
 
             // COMPUTER
-            _computeOpacity: function (active, inactiveDim) {
-                return (!active && inactiveDim && 'hint') || null;
+            _computeOpacity: function (active, dimmed) {
+                return (!active && dimmed && 'hint') || null;
             },
 
             /*********************************************************************/
