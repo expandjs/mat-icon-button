@@ -7,7 +7,7 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-An element used to display a [Material Design icon button](http://www.google.com/design/spec/components/buttons.html#buttons-other-buttons).
+A custom element used to display a [Material Design icon button](http://www.google.com/design/spec/components/buttons.html#buttons-other-buttons).
 
 To be able to use the `icon` attribute, you must import an icon set.
 
@@ -41,17 +41,9 @@ The button can be used to toggle other elements...
 <mat-icon-button id="myButton" icon="toggle:star-outline" active-icon="toggle:star" toggleable></mat-icon-button>
 
 <script>
-    (function () {
-        var button = XP.getElementById('myButton');
-
-        XP.listen(button, 'xp-active', function (event) {
-            if (event.detail.isActive) {
-                console.log("I've been activated!");
-            } else {
-                console.log("I've been deactivated!");
-            }
-        });
-    }());
+    document.getElementById('myButton').addEventListener('xp-active', function (event) {
+        console.log(event.detail.isActive ? "I've been activated!" : "I've been deactivated!");
+    });
 </script>
 ```
 
@@ -75,43 +67,46 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
 
 @element mat-icon-button
 @description A custom element used to display a Material Design icon button
-@keywords material design, material icon button, material button, web app, html5, expandjs, web-components
+@keywords material design, material button, expandjs, web app, custom elements, web-components
 @group contents
+@hot
+
 @homepage http://expandjs.com/elements/mat-icon-button
 @repository https://github.com/ExpandJS/mat-icon-button
 @demo http://expandjs.com/demo/mat-icon-button
 
 @behavior xp-anchor-behavior /bower_components/xp-anchor-behavior/xp-anchor-behavior.html
-@behavior xp-pressed-behavior /bower_components/xp-pressed-behavior/xp-pressed-behavior.html
-@behavior xp-referral-behavior /bower_components/xp-referral-behavior/xp-referral-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-overlay/xp-overlay-injector.html
+@behavior mat-pressed-ink-behavior /bower_components/mat-pressed-behavior/mat-pressed-ink-behavior.html
 
-@dependency polymer Polymer/polymer#^1.1.0
-@dependency expandjs ExpandJS/expandjs#0.9.11
+@dependency polymer Polymer/polymer#^1.2.0
+@dependency expandjs ExpandJS/expandjs#0.10.0
 @dependency iron-flex-layout PolymerElements/iron-flex-layout#^1.0.0
-@dependency mat-icon ExpandJS/mat-icon#0.9.11
-@dependency mat-ripple ExpandJS/mat-ripple#0.9.11
-@dependency xp-anchor-behavior ExpandJS/xp-anchor-behavior#0.9.11
-@dependency xp-pressed-behavior ExpandJS/xp-pressed-behavior#0.9.11
-@dependency xp-referral-behavior ExpandJS/xp-referral-behavior#0.9.11
+@dependency mat-icon ExpandJS/mat-icon#0.10.0
+@dependency mat-pressed-behavior ExpandJS/mat-pressed-behavior#0.10.0
+@dependency xp-anchor-behavior ExpandJS/xp-anchor-behavior#0.10.0
+@dependency xp-overlay ExpandJS/xp-overlay#0.10.0
 
-@devDependency mat-demo ExpandJS/mat-demo#0.9.11
-@devDependency mat-icons ExpandJS/mat-icons#0.9.11
+@devDependency mat-demo ExpandJS/mat-demo#0.10.0
+@devDependency mat-icons ExpandJS/mat-icons#0.10.0
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../mat-icon/mat-icon.html">
-<link rel="import" href="../mat-ripple/mat-ripple.html">
+<link rel="import" href="../mat-pressed-behavior/mat-pressed-ink-behavior.html">
+<link rel="import" href="../mat-pressed-behavior/mat-pressed-ink-styles.html">
 <link rel="import" href="../xp-anchor-behavior/xp-anchor-behavior.html">
-<link rel="import" href="../xp-pressed-behavior/xp-pressed-behavior.html">
-<link rel="import" href="../xp-referral-behavior/xp-referral-behavior.html">
+<link rel="import" href="../xp-anchor-behavior/xp-anchor-styles.html">
+<link rel="import" href="../xp-overlay/xp-overlay-injector.html">
 
 <dom-module id="mat-icon-button">
 
-    <template>
+    <template strip-whitespace>
 
-        <style include="xp-pressed-styles"></style>
+        <style include="xp-anchor-styles"></style>
+        <style include="mat-pressed-ink-styles"></style>
 
         <style>
             :host {
@@ -121,94 +116,73 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
                 width: 40px;
             }
 
-            :host([empty]) {
-                display: none !important;
+            :host .anchor:after {
+                min-height: 48px;
+                min-width: 48px;
             }
 
-            :host #matIconButtonWrapper,
-            :host #matIconButtonMain {
-                border-radius: inherit;
-                height: 100%;
-            }
-
-            :host #matIconButtonMain {
+            :host .main {
                 @apply(--layout-horizontal);
                 @apply(--layout-center-center);
+                height: 100%;
             }
 
-            :host #matIconButtonAnchor {
-                border-radius: inherit;
+            :host .icons,
+            :host .icon {
                 display: block;
                 height: 100%;
-                outline: 0;
-                overflow: hidden;
-                text-decoration: none;
-            }
-
-            :host #matIconButtonAnchor:after {
-                bottom: -4px;
-                content: "";
-                left: -4px;
-                position: absolute;
-                right: -4px;
-                top: -4px;
-            }
-
-            :host #matIconButtonIcons,
-            :host #matIconButtonIcon,
-            :host #matIconButtonActiveIcon {
-                display: block;
+                max-height: 24px;
+                max-width: 24px;
                 position: relative;
-            }
-
-            :host #matIconButtonRipple {
-                margin: -4px;
-                padding: 4px;
+                width: 100%;
             }
 
             /* ANIMATION */
 
-            :host #matIconButtonIcon,
-            :host #matIconButtonActiveIcon {
-                -webkit-transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1),
-                -webkit-transform 0.4s cubic-bezier(0.55, 0, 0.01, 1),
-                visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
-                transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1),
-                transform 0.4s cubic-bezier(0.55, 0, 0.01, 1),
-                visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+            :host .icon {
+                -webkit-transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1), -webkit-transform 0.4s cubic-bezier(0.55, 0, 0.01, 1), visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+                transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1), transform 0.4s cubic-bezier(0.55, 0, 0.01, 1), visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
             }
 
-            :host([animated]) #matIconButtonIcon {
+            :host([animated]) .icon.one {
                 position: absolute;
             }
 
-            :host #matIconButtonIcon,
-            :host([active]) #matIconButtonActiveIcon {
+            :host .icon.one,
+            :host([active]) .icon.two {
+                opacity: 1;
                 -webkit-transform: scale(1);
                 transform: scale(1);
                 visibility: visible;
             }
 
-            :host([active][animated]) #matIconButtonIcon,
-            :host(:not([active])) #matIconButtonActiveIcon {
+            :host([active][animated]) .icon.one,
+            :host(:not([active])) .icon.two {
                 opacity: 0;
                 -webkit-transform: scale(0);
                 transform: scale(0);
                 visibility: hidden;
             }
+
+            /* MIXIN */
+
+            :host .icon.one { @apply(--mat-icon-button-icon-one); }
+            :host .icon.two { @apply(--mat-icon-button-icon-two); }
+            :host([active]) .icon.one { @apply(--mat-icon-button-active-icon-one); }
+            :host([active]) .icon.two { @apply(--mat-icon-button-active-icon-two); }
+
         </style>
 
-        <div id="matIconButtonWrapper">
-            <a id="matIconButtonAnchor" tabindex="-1">
-                <div id="matIconButtonMain">
-                    <div id="matIconButtonIcons">
-                        <mat-icon id="matIconButtonIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[_computeOpacity(active, dimmed)]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
-                        <mat-icon id="matIconButtonActiveIcon" color="[[_computeColor(active, activeColor, color)]]" disabled="[[disabled]]" name="[[activeIcon]]" raster="{{activeRaster}}" src="[[activeIconSrc]]"></mat-icon>
-                    </div>
+        <a class="anchor" tabindex="-1" on-click="_anchorHandler">
+            <div class="main">
+                <div class="icons">
+                    <mat-icon class="icon one" color="[[currentColor]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[_computeOpacity(active, dimmed)]]" src="[[iconSrc]]"></mat-icon>
+                    <mat-icon class="icon two" color="[[currentColor]]" disabled="[[disabled]]" name="[[activeIcon]]" src="[[activeIconSrc]]"></mat-icon>
                 </div>
-            </a>
-            <mat-ripple context="[[self]]" id="matIconButtonRipple" color="[[_computeColor(active, activeColor, color)]]" auto-center></mat-ripple>
-        </div>
+            </div>
+        </a>
+
+        <div class="ripple-waves"></div>
 
     </template>
 
@@ -221,8 +195,8 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
             // BEHAVIORS
             behaviors: [
                 Polymer.XPAnchorBehavior,
-                Polymer.XPPressedBehavior,
-                Polymer.XPReferralBehavior
+                Polymer.XPOverlayInjector,
+                Polymer.MatPressedInkBehavior
             ],
 
             /*********************************************************************/
@@ -231,27 +205,15 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
             properties: {
 
                 /**
-                 * The ink's active color.
-                 *
-                 * @attribute active-color
-                 * @type string
-                 */
-                activeColor: {
-                    reflectToAttribute: true,
-                    type: String,
-                    value: null
-                },
-
-                /**
                  * The button's active icon.
                  *
                  * @attribute active-icon
                  * @type string
                  */
                 activeIcon: {
+                    observer: '_activeIconChanged',
                     reflectToAttribute: true,
-                    type: String,
-                    value: null
+                    type: String
                 },
 
                 /**
@@ -261,22 +223,9 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
                  * @type string
                  */
                 activeIconSrc: {
+                    observer: '_activeIconChanged',
                     reflectToAttribute: true,
-                    type: String,
-                    value: null
-                },
-
-                /**
-                 * If set to true, the active icon is a raster one instead of svg.
-                 *
-                 * @attribute active-raster
-                 * @type boolean
-                 * @notifies
-                 * @readonly
-                 */
-                activeRaster: {
-                    notify: true,
-                    type: Boolean
+                    type: String
                 },
 
                 /**
@@ -289,39 +238,15 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
                  * @readonly
                  */
                 animated: {
-                    computed: '_computeAnimated(activeIcon, activeIconSrc)',
                     notify: true,
+                    readOnly: true,
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
                 },
 
                 /**
-                 * The ink's color.
-                 *
-                 * @attribute color
-                 * @type string
-                 */
-                color: {
-                    reflectToAttribute: true,
-                    type: String,
-                    value: null
-                },
-
-                /**
-                 * The element's data.
-                 *
-                 * @attribute data
-                 * @type *
-                 * @notifies
-                 */
-                data: {
-                    notify: true,
-                    value: null
-                },
-
-                /**
-                 * If set to true, the icon is dimmed on inactive state.
+                 * If set to true, the icon is dimmed when not active.
                  *
                  * @attribute dimmed
                  * @type boolean
@@ -334,23 +259,6 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
                 },
 
                 /**
-                 * If set to true, the element is hidden.
-                 *
-                 * @attribute empty
-                 * @type boolean
-                 * @default true
-                 * @notifies
-                 * @readonly
-                 */
-                empty: {
-                    computed: '_computeEmpty(animated, active, icon, iconSrc)',
-                    notify: true,
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: true
-                },
-
-                /**
                  * The button's icon.
                  *
                  * @attribute icon
@@ -358,8 +266,7 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
                  */
                 icon: {
                     reflectToAttribute: true,
-                    type: String,
-                    value: null
+                    type: String
                 },
 
                 /**
@@ -370,51 +277,33 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
                  */
                 iconSrc: {
                     reflectToAttribute: true,
-                    type: String,
-                    value: null
-                },
-
-                /**
-                 * If set to true, the icon is a raster one instead of svg.
-                 *
-                 * @attribute raster
-                 * @type boolean
-                 * @notifies
-                 * @readonly
-                 */
-                raster: {
-                    notify: true,
-                    type: Boolean
+                    type: String
                 }
             },
 
             /*********************************************************************/
 
             // COMPUTER
-            _computeAnimated: function (activeIcon, activeIconSrc) {
-                return !!activeIcon || !!activeIconSrc;
-            },
-
-            // COMPUTER
-            _computeColor: function (active, activeColor, color) {
-                return (active && activeColor) || color;
-            },
-
-            // COMPUTER
-            _computeEmpty: function (animated, active, icon, iconSrc) {
-                return (!animated || !active) && !icon && !iconSrc;
-            },
-
-            // COMPUTER
             _computeOpacity: function (active, dimmed) {
-                return (!active && dimmed && 'hint') || null;
+                return !active && dimmed ? 'hint' : 'icon';
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _activeIconChanged: function () {
+
+                // Setting
+                this._setAnimated(!!this.activeIcon || !!this.activeIconSrc);
             },
 
             /*********************************************************************/
 
             // LISTENER
-            ready: function () {
-                this._setAnchor(this.$.matIconButtonAnchor);
+            created: function () {
+
+                // Classifying
+                this.classList.add('button');
             }
         });
     </script>
