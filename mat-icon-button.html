@@ -124,11 +124,13 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
             :host .main {
                 @apply(--layout-horizontal);
                 @apply(--layout-center-center);
+                box-sizing: border-box;
                 height: 100%;
             }
 
             :host .icons,
             :host .icon {
+                box-sizing: border-box;
                 display: block;
                 height: 100%;
                 max-height: 24px;
