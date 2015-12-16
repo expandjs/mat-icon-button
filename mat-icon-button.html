@@ -142,7 +142,6 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
             /* ANIMATION */
 
             :host .icon {
-                -webkit-transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1), -webkit-transform 0.4s cubic-bezier(0.55, 0, 0.01, 1), visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
                 transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1), transform 0.4s cubic-bezier(0.55, 0, 0.01, 1), visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
             }
 
@@ -153,7 +152,6 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
             :host .icon.one,
             :host([active]) .icon.two {
                 opacity: 1;
-                -webkit-transform: scale(1);
                 transform: scale(1);
                 visibility: visible;
             }
@@ -161,7 +159,6 @@ If you want the button to be semi-transparent whenever it's inactive, you can ad
             :host([active][animated]) .icon.one,
             :host(:not([active])) .icon.two {
                 opacity: 0;
-                -webkit-transform: scale(0);
                 transform: scale(0);
                 visibility: hidden;
             }
